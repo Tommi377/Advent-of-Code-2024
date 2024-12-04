@@ -1,49 +1,64 @@
-use std::iter::Peekable;
-
 advent_of_code::solution!(2);
 
 pub fn part_one(input: &str) -> Option<u32> {
-    Some(input.lines().map(|line| {
-        let mut values = line
-            .split_whitespace()
-            .map(|str| str.parse::<i32>().unwrap())
-            .peekable();
+    Some(
+        input
+            .lines()
+            .map(|line| {
+                let mut values = line
+                    .split_whitespace()
+                    .map(|str| str.parse::<i32>().unwrap())
+                    .peekable();
 
-        let prev = values.next().unwrap();
-        let diff = prev - *values.peek().unwrap();
-        let dir = if diff < 0 { 1 } else { -1 };
-        if diff.abs() == 0 || diff.abs() >= 4 {
-            return 0;
-        }
+                let prev = values.next().unwrap();
+                let diff = prev - *values.peek().unwrap();
+                let dir = if diff < 0 { 1 } else { -1 };
+                if diff.abs() == 0 || diff.abs() >= 4 {
+                    return 0;
+                }
 
-        if values.is_sorted_by(|a, b| dir * (b - a) > 0 && dir * (b - a) < 4) {1} else {0}
-    }).sum::<u32>())
+                if values.is_sorted_by(|a, b| dir * (b - a) > 0 && dir * (b - a) < 4) {
+                    1
+                } else {
+                    0
+                }
+            })
+            .sum::<u32>(),
+    )
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    Some(input.lines().map(|line| {
-        let values = line
-            .split_whitespace()
-            .map(|str| str.parse::<i32>().unwrap())
-            .collect::<Vec<i32>>();
+    Some(
+        input
+            .lines()
+            .map(|line| {
+                let values = line
+                    .split_whitespace()
+                    .map(|str| str.parse::<i32>().unwrap())
+                    .collect::<Vec<i32>>();
 
-        if (0..values.len()).any(|i| {
-            let mut removed = values.to_vec();
-            removed.remove(i);
-            let mut removed = removed.iter().peekable();
-            
-            let prev = removed.next().unwrap();
-            let diff = prev - *removed.peek().unwrap();
-            let dir = if diff < 0 { 1 } else { -1 };
-            if diff.abs() == 0 || diff.abs() >= 4 {
-                return false;
-            }
+                if (0..values.len()).any(|i| {
+                    let mut removed = values.to_vec();
+                    removed.remove(i);
+                    let mut removed = removed.iter().peekable();
 
-            removed.is_sorted_by(|a, b| dir * (*b - *a) > 0 && dir * (*b - *a) < 4)
-        }) {1} else {0}
-    }).sum::<u32>())
+                    let prev = removed.next().unwrap();
+                    let diff = prev - *removed.peek().unwrap();
+                    let dir = if diff < 0 { 1 } else { -1 };
+                    if diff.abs() == 0 || diff.abs() >= 4 {
+                        return false;
+                    }
+
+                    removed.is_sorted_by(|a, b| dir * (*b - *a) > 0 && dir * (*b - *a) < 4)
+                }) {
+                    1
+                } else {
+                    0
+                }
+            })
+            .sum::<u32>(),
+    )
 }
-
 
 #[cfg(test)]
 mod tests {
