@@ -1,9 +1,6 @@
-use std::{
-    collections::{HashMap, HashSet},
-    ops::{Add, Mul, Sub},
-};
+use std::collections::{HashMap, HashSet};
 
-use num::Integer;
+use advent_of_code::point::Point;
 
 advent_of_code::solution!(8);
 
@@ -87,57 +84,6 @@ fn parse_map(input: &str, w: i32) -> HashMap<char, Vec<Point<i32>>> {
         });
 
     satellites
-}
-
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
-struct Point<T> {
-    x: T,
-    y: T,
-}
-
-impl<T> Point<T> {
-    pub fn new(x: T, y: T) -> Self {
-        Self { x, y }
-    }
-}
-
-impl<T: PartialOrd> Point<T> {
-    pub fn in_bound(self, lower: T, upper: T) -> bool {
-        self.x >= lower && self.x < upper && self.y >= lower && self.y < upper
-    }
-}
-
-impl<T: Add<Output = T>> Add for Point<T> {
-    type Output = Self;
-
-    fn add(self, other: Self) -> Self::Output {
-        Point {
-            x: self.x + other.x,
-            y: self.y + other.y,
-        }
-    }
-}
-
-impl<T: Sub<Output = T>> Sub for Point<T> {
-    type Output = Self;
-
-    fn sub(self, other: Self) -> Self::Output {
-        Point {
-            x: self.x - other.x,
-            y: self.y - other.y,
-        }
-    }
-}
-
-impl<T: Integer + Copy> Mul<T> for Point<T> {
-    type Output = Self;
-
-    fn mul(self, rhs: T) -> Self::Output {
-        Point {
-            x: self.x * rhs,
-            y: self.y * rhs,
-        }
-    }
 }
 
 #[cfg(test)]
