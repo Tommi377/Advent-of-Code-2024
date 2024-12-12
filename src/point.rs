@@ -1,4 +1,4 @@
-use num::Integer;
+use num::{one, Integer};
 use std::ops::{Add, Mul, Sub};
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
@@ -16,6 +16,33 @@ impl<T> Point<T> {
 impl<T: PartialOrd> Point<T> {
     pub fn in_bound(self, lower: T, upper: T) -> bool {
         self.x >= lower && self.x < upper && self.y >= lower && self.y < upper
+    }
+}
+
+impl<T: Integer + Copy> Point<T> {
+    pub fn right(&self) -> Self {
+        Point {
+            x: self.x + one(),
+            y: self.y,
+        }
+    }
+    pub fn left(&self) -> Self {
+        Point {
+            x: self.x - one(),
+            y: self.y,
+        }
+    }
+    pub fn up(&self) -> Self {
+        Point {
+            x: self.x,
+            y: self.y - one(),
+        }
+    }
+    pub fn down(&self) -> Self {
+        Point {
+            x: self.x,
+            y: self.y + one(),
+        }
     }
 }
 
