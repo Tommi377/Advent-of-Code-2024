@@ -44,6 +44,34 @@ impl<T: Integer + Copy> Point<T> {
             y: self.y + one(),
         }
     }
+    pub fn up_right(&self) -> Self {
+        Point {
+            x: self.x + one(),
+            y: self.y - one(),
+        }
+    }
+    pub fn up_left(&self) -> Self {
+        Point {
+            x: self.x - one(),
+            y: self.y - one(),
+        }
+    }
+    pub fn down_right(&self) -> Self {
+        Point {
+            x: self.x + one(),
+            y: self.y + one(),
+        }
+    }
+    pub fn down_left(&self) -> Self {
+        Point {
+            x: self.x - one(),
+            y: self.y + one(),
+        }
+    }
+
+    pub fn neighbors(&self) -> Vec<Self> {
+        vec![self.right(), self.left(), self.up(), self.down()]
+    }
 }
 
 impl<T: Add<Output = T>> Add for Point<T> {
